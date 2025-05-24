@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Interfaces/HUD3.uss?fileID=7433441132597879392&amp;guid=5db846c7545e38a49b8664d77b76c4e8&amp;type=3#HUD3" />
+    <ui:VisualElement name="HUDRoot" class="hud-root">
+        <ui:VisualElement name="Crosshair" class="crosshair" />
+        <ui:VisualElement name="TopLeftInfo" class="top-left-panel panel-style">
+            <ui:Label name="PlayerLevel" text="等级" class="info-label" />
+            <ui:Label name="MissionObjective" text="任务目标：回到基地" class="info-label" />
+            <ui:Label name="PlayerStatus" text="状态：■■■■" class="info-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="StoryInfo" class="story-panel panel-style">
+            <ui:Label name="PlayerLevel" text="故事信息/通讯" class="info-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="TopRightInfo" class="top-right-panel panel-style">
+            <ui:Label name="AllyInfo" text="友军信息" class="info-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="RadarPanel" class="radar-panel panel-style">
+            <ui:Label text="雷达" class="panel-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BottomStatus" class="bottom-center-panel panel-style">
+            <ui:Label name="HealthBar" text="HP: 100/100" class="status-bar" />
+            <ui:Label name="Skill1" text="[Q] 跟踪地雷" class="skill-label" />
+            <ui:Label name="Skill2" text="[E] 无人机" class="skill-label" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

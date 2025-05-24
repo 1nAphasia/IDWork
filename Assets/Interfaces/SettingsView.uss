@@ -1,0 +1,45 @@
+/* TabViewStyles.uss */
+.tab-button {
+    flex-grow: 0; /* 不要让按钮自动拉伸填充空间 */
+    padding: 5px 15px;
+    margin-top: 2%; /* 按钮间的间距 */
+    height: 12%;
+    border-width: 1px 1px 1px 1px; /* 顶部和两侧边框 */
+    border-color: white;
+    border-radius: 2%; /* 顶部圆角 */
+    background-color: transparent; /* 非激活状态的背景色 */
+    /* -unity-font-style: bold; */
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0; /* 鼠标悬停颜色 */
+}
+
+/* 用于表示激活状态的USS类 */
+.tab-button--active {
+    background-color: yellow; /* 激活状态的背景色 */
+    border-bottom-width: 0; /* 激活时移除底部边框，与内容区域融合 */
+    /* -unity-font-style: bold; */
+    color: black;
+}
+
+.tab-content-pane {
+    /* 基础样式，大部分已在UXML中设置 */
+}
+
+#tab-buttons-container{
+    flex-direction: column; 
+    height: 100%; 
+    width:20%;
+    border-bottom-width: 1px; 
+    border-bottom-color: grey;
+}
+#tab-view-container{
+    position:absolute;
+    background-color: rgba(0,0,0,0.5);
+    width:65%;
+    height:70%;
+    top:20%;
+    right:5%;
+    display:none;
+}

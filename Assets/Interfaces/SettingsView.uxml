@@ -1,0 +1,24 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Interfaces/SettingsView.uss?fileID=7433441132597879392&amp;guid=cfdaeb06bba5a25418741b36d0c6b3a5&amp;type=3#SettingsView" />
+    <ui:VisualElement name="tab-view-container" style="flex-grow: 1; flex-direction: row; position: absolute;">
+        <ui:VisualElement name="tab-buttons-container">
+            <ui:Button name="tab-button-1" text="图形" class="tab-button" />
+            <ui:Button name="tab-button-2" text="音频" class="tab-button" />
+            <ui:Button name="tab-button-3" text="游戏" class="tab-button" />
+            <ui:Button name="tab-button-3" text="辅助设置" class="tab-button" />
+        </ui:VisualElement>
+        <ui:VisualElement name="tab-content-container" style="flex-grow: 1;">
+            <ui:VisualElement name="tab-content-1" class="tab-content-pane" style="flex-grow: 1; padding: 10px;">
+                <ui:Label text="这里是标签页 1 的内容。" />
+            </ui:VisualElement>
+            <ui:VisualElement name="tab-content-2" class="tab-content-pane" style="flex-grow: 1; padding: 10px; display: none;">
+                <ui:Label text="这里是标签页 2 的内容。" />
+                <ui:Slider label="一个滑块" high-value="100" />
+            </ui:VisualElement>
+            <ui:VisualElement name="tab-content-3" class="tab-content-pane" style="flex-grow: 1; padding: 10px; display: none;">
+                <ui:Label text="这里是标签页 3 的内容。" />
+                <ui:Toggle label="一个开关" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

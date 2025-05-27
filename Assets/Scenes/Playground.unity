@@ -543,76 +543,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &562150593
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 701558188}
-    m_Modifications:
-    - target: {fileID: 2733773026249191767, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: vfxHitRed
-      value: 
-      objectReference: {fileID: 6954592841553208740, guid: f78712f3eede0d8489607e8501842bba, type: 3}
-    - target: {fileID: 2733773026249191767, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: vfxHitGreen
-      value: 
-      objectReference: {fileID: 9028456345535830253, guid: c2f4431c438abd6478b07880f48aaae8, type: 3}
-    - target: {fileID: 4745493300352732340, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_Name
-      value: BulletTrack
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.188
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.89300007
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
---- !u!4 &562150594 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
-  m_PrefabInstance: {fileID: 562150593}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &700051398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8338988566280778637, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
@@ -646,8 +576,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.378, z: 0.682}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 562150594}
+  m_Children: []
   m_Father: {fileID: 2091808033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874605735
@@ -1489,7 +1418,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   debugTransform: {fileID: 490312645}
-  pfBulletProjectile: {fileID: 8853906650464215744, guid: fa7d8cb82edd80c4e8a6b49b9eeaa0ef, type: 3}
+  pfBulletProjectile: {fileID: 8248831609431101998, guid: 913ececf01b37ba4c97ba42abb18838c, type: 3}
   spawnBulletPosition: {fileID: 701558188}
 --- !u!1 &2114283753834967212
 GameObject:

@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEditor;
+using Unity.Mathematics;
 
 public class ThirdShooterController : MonoBehaviour
 {
@@ -19,12 +20,14 @@ public class ThirdShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     [SerializeField] private Transform pfBulletProjectile;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] private Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,13 +46,18 @@ public class ThirdShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetRotateOnMove(false);
             thirdPersonController.SetSensitivity(aimSensitivity);
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
             Vector3 worldAimTarget = mouseWorldPosition;
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+            aimDirection = Quaternion.AngleAxis(40, Vector3.up) * aimDirection;
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+
         }
         else
         {
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);

@@ -12,8 +12,9 @@ public class BulletProjectile : MonoBehaviour
     }
     void Start()
     {
-        float speed = 90f;
+        float speed = 40f;
         bulletRigidbody.linearVelocity = transform.forward * speed;
+        Destroy(gameObject, 5f);
     }
 
     // Update is called once per frame

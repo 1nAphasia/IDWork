@@ -11,11 +11,11 @@ using Unity.Mathematics;
 
 public class ThirdShooterController : MonoBehaviour
 {
+    public GameObject CrossHair;
     [SerializeField] private CinemachineCamera aimVirtualCamera;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] private Transform debugTransform;
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
     [SerializeField] private Transform pfBulletProjectile;
@@ -38,12 +38,12 @@ public class ThirdShooterController : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(ScreenCenterPoint);
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
-            debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
         }
         if (starterAssetsInputs.aim)
         {
             aimVirtualCamera.gameObject.SetActive(true);
+            CrossHair.SetActive(true);
             thirdPersonController.SetRotateOnMove(false);
             thirdPersonController.SetSensitivity(aimSensitivity);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
@@ -61,6 +61,7 @@ public class ThirdShooterController : MonoBehaviour
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);
+            CrossHair.SetActive(false);
 
         }
         if (starterAssetsInputs.shoot)

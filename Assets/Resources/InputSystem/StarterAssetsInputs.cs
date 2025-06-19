@@ -1,3 +1,4 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -15,6 +16,9 @@ namespace StarterAssets
 		public bool sprint;
 		public bool aim;
 		public bool shoot;
+		public event System.Action OnEscPressed;
+		public event System.Action OnTabPressed;
+		public event System.Action UIOnEscPressed;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -54,6 +58,28 @@ namespace StarterAssets
 		{
 			ShootInput(value.isPressed);
 		}
+		public void OnEsc(InputValue value)
+		{
+			if (value.isPressed && OnEscPressed != null)
+			{
+				OnEscPressed.Invoke();
+			}
+		}
+		public void OnTab(InputValue Value)
+		{
+			if (Value.isPressed)
+			{
+				OnTabPressed.Invoke();
+			}
+		}
+		public void OnCancel(InputValue Value)
+		{
+			if (Value.isPressed)
+			{
+				UIOnEscPressed.Invoke();
+			}
+		}
+
 #endif
 
 
@@ -94,6 +120,10 @@ namespace StarterAssets
 		public void ShootInput(bool newShootState)
 		{
 			shoot = newShootState;
+		}
+		public void EscInput(bool newEscState)
+		{
+			shoot = newEscState;
 		}
 	}
 }

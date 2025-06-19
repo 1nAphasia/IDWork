@@ -12,11 +12,8 @@ public enum Rarity
 
 public enum StatType
 {
-    Health,
     MaxHealth,
     Armor,
-    Shield,
-
     MovementSpeed,
     WeaponDamage,
     CritChance,
@@ -35,15 +32,19 @@ public enum StatType
 
 public enum StatModType
 {
+    Flat,//白值加算
     Additive,
     Multiplicative,
-    PercentAdd,
-    PercentMult,
 
     FinalAdditive,
     FinalMultiplicative,
-    FinalPercentAdd,
-    FinalPercentMult,
+
+}
+
+public enum EquipType
+{
+    Weapon,
+    Armor,
 }
 
 public enum WeaponType
@@ -55,4 +56,37 @@ public enum WeaponType
     MicroMachinegun,
     LightMachinegun,
 
+}
+
+public enum ArmorType
+{
+    Chest,
+    Helmet,
+    Legs,
+    Gloves,
+    Backpack,
+}
+public enum EquipSlot
+{
+    MainHand,
+    OffHand,
+    Chest,
+    Helmet,
+    Legs,
+    Gloves,
+    Backpack,
+}
+
+public enum CoreAffix
+{
+    Attack,
+    Defense,
+    Skill
+}
+
+public enum MissionStatus
+{
+    InActive,
+    Active,
+    Completed,
 }

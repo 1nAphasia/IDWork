@@ -1,5 +1,7 @@
+#nullable enable
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class EquipmentInstance
 {
@@ -9,13 +11,16 @@ public class EquipmentInstance
     public float? Damage;
     public float? RateofFire;
     public WeaponType? weaponType;
+    public int MaxAmmo;
     public float? Armor;
     public CoreAffix? CoreAffix;
+    public Ballistics? ballistics;
     public EquipSlot slot;
     public Rarity rarity;
     public EquipmentSO template;
     public List<Affix> affixes;
     public List<SkillSO> grantedSkills;
+    public List<FireMode> AvailableFireMode;
     public EquipmentInstance(string tpID, int sd, int lvl, Rarity ra, EquipmentSO tp, int? skillId)
     {
         templateID = tpID;
@@ -28,6 +33,9 @@ public class EquipmentInstance
             Damage = math.round(level * math.log2(level) * ((WeaponSO)template).baseDamage);
             RateofFire = ((WeaponSO)template).fireRate;
             weaponType = ((WeaponSO)template).weaponType;
+            MaxAmmo = ((WeaponSO)template).maxAmmo;
+            ballistics = ((WeaponSO)template).ballistics;
+
         }
         else
         {
@@ -35,6 +43,9 @@ public class EquipmentInstance
             CoreAffix = ((ArmorSO)template).core;
         }
         var rng = new System.Random(seed);
+        affixes = new List<Affix>();
+        grantedSkills = new List<SkillSO>();
+        AvailableFireMode = new List<FireMode>();
         if (rarity is Rarity.Uncommon or Rarity.Rare)
         {
             affixes.Add(EquipmentService.GenerateAffix(rng, rarity));
@@ -46,7 +57,9 @@ public class EquipmentInstance
         }
         if (skillId is not null)
         {
-            grantedSkills.Add(new SkillSO() { skillId = (int)skillId });
+            var newSO = ScriptableObject.CreateInstance<SkillSO>();
+            newSO.skillId = (int)skillId;
+            grantedSkills.Add(newSO);
         }
     }
 }

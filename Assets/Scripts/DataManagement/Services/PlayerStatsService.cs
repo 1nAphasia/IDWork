@@ -1,24 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerStatsService
 {
-    public Stats playerStats { get; private set; }
+    public PlayerStats playerStats { get; private set; }
     public IEquipmentSystem EquipSystem;
     public event Action OnStatsChanged;
-
     public PlayerStatsService(IEquipmentSystem EqSystem)
     {
         EquipSystem = EqSystem;
-        playerStats = new Stats(new PlayerStats(1), EqSystem);
+        playerStats = new PlayerStats(new PlayerBaseStats(1), EqSystem);
     }
 
     public void OnWeaponChange(EquipmentInstance Ins)
     {
-        playerStats.SetWeaponStats((float)Ins.Damage, (float)Ins.RateofFire, (WeaponType)Ins.weaponType);
         OnStatsChanged.Invoke();
     }
 
@@ -29,9 +25,8 @@ public class PlayerStatsService
             //Stats Sequence Should be:Level,BaseDamage、RateOfFire、WeaponType,MaxHealth,Armor,MovementSpeed,WeaponDamage,CritChance,CritDamage,HeadshotDamage,WeaponControl,RateOfFire,HazardProtection,DamageReduction,TotalArmor,BulletProtection,SkillDamage,SkillLength,CooldownSpeed
             ("Level",playerStats.playerBaseStats.Level.ToString()),
             ("Health",playerStats.playerBaseStats.Health.ToString()),
-            ("BaseDamage",playerStats.playerBaseStats.baseDamage.ToString()),
-            ("RateOfFire",playerStats.playerBaseStats.RateofFire.ToString()),
-           ("WeaponType",playerStats.playerBaseStats.weaponType.ToString()),
+            ("Damage",playerStats.Damage.ToString()),
+            ("RateOfFire",playerStats.RateofFire.ToString()),
         };
         foreach (var pair in playerStats.finalStats)
         {

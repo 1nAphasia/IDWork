@@ -90,3 +90,5 @@ public enum MissionStatus
     Active,
     Completed,
 }
+
+public enum FireMode { SemiAuto, FullAuto, Burst, Charge, SingleShot }

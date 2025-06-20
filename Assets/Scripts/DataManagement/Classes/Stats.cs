@@ -2,20 +2,26 @@
 using System;
 using System.Collections.Generic;
 
-public class Stats
+public class PlayerStats
 {
-    public PlayerStats playerBaseStats;
+    public PlayerBaseStats playerBaseStats;
     private List<ActiveBuff> buffs = new();
     public Dictionary<StatType, float> finalStats = new();
     private IEquipmentSystem equipSystem;
-    // 缓存过的最终属性
     private bool dirty = true;
+    public float Damage;
+    public float RateofFire = 0;
+    public WeaponType CurrentWeaponType;
     public event Action OnStatsChanged;
+    public List<Weapon> Weapons;
+    public int CurrentWeapon = 0;
 
-    public Stats(PlayerStats cfg, IEquipmentSystem eqSystem)
+    public PlayerStats(PlayerBaseStats cfg, IEquipmentSystem eqSystem)
     {
         equipSystem = eqSystem;
         playerBaseStats = cfg;
+        Damage = playerBaseStats.baseDamage;
+        InitiateWeapons();
         MarkDirty();
         Recalculate();
     }
@@ -52,15 +58,20 @@ public class Stats
         finalStats.Clear();
         foreach (StatType type in Enum.GetValues(typeof(StatType)))
             finalStats[type] = playerBaseStats.GetStat(type);
+        //2. 计算装备属性
         if (equipSystem != null)
         {
             foreach (var equip in equipSystem.GetAllEquipped())
             {
                 if (equip is null) continue;
+                //叠甲
                 if (equip.template.equipSlot is not EquipSlot.MainHand or EquipSlot.OffHand)
                 {
                     finalStats[StatType.Armor] += (float)equip.Armor;
                 }
+                Damage = Weapons[CurrentWeapon].Damage + playerBaseStats.baseDamage;
+                RateofFire = Weapons[CurrentWeapon].RateOfFire;
+                CurrentWeaponType = (WeaponType)Weapons[CurrentWeapon].weaponType;
                 foreach (var affix in equip.affixes)
                 {
                     switch (affix.type)
@@ -73,7 +84,6 @@ public class Stats
                             break;
                     }
                 }
-
             }
         }
         // 2. 叠加Buff
@@ -95,11 +105,27 @@ public class Stats
         OnStatsChanged?.Invoke();
         dirty = false;
     }
-    public void SetWeaponStats(float Damage, float RateofFire, WeaponType weaponType)
+
+    private void InitiateWeapons()
     {
-        playerBaseStats.baseDamage = Damage;
-        playerBaseStats.RateofFire = RateofFire;
-        playerBaseStats.weaponType = weaponType;
+        foreach (var equip in equipSystem.GetAllEquipped())
+        {
+            if (equip is null || equip.template.equipSlot is not EquipSlot.MainHand or EquipSlot.OffHand) continue;
+            //叠甲
+            if (equip.template.equipSlot is EquipSlot.MainHand)
+            {
+                Weapons.Add(new Weapon(equip));
+            }
+            if (equip.template.equipSlot is EquipSlot.OffHand)
+            {
+                Weapons.Add(new Weapon(equip));
+            }
+        }
+    }
+
+    public void SetWeaponStats(float Damage, float RateofFire, int CurrentAmmo, int MaxAmmo, WeaponType weaponType)
+    {
+
     }
 }
 

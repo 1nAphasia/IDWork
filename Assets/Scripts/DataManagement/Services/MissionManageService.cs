@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 public class MissionManageService
 {
     public List<Mission> MissionList = new();
+    public ObservableProperty<Mission> CurrentMission;
     public MissionManageService()
     {
 
@@ -30,6 +32,8 @@ public class MissionManageService
         MissionList.Add(mission1);
         MissionList.Add(mission2);
         MissionList.Add(mission3);
+        CurrentMission = new ObservableProperty<Mission>();
+        CurrentMission.Value = MissionList[0];
     }
     public List<Mission> GetAllMissions()
     {

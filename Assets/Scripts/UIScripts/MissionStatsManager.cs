@@ -20,7 +20,20 @@ public class MissionStatsManager : MonoBehaviour
     void Start()
     {
         MissionInfoList = GameDataManager.I.MissionService.GetAllMissions();
-
+        var missionButtonMap = GenerateTaskButtons();
+        var currentMission = GameDataManager.I.MissionService.CurrentMission;
+        if (currentMission != null)
+        {
+            if (missionButtonMap.TryGetValue(currentMission.Value, out var btnGO))
+            {
+                // 选中按钮
+                EventSystem.current.SetSelectedGameObject(btnGO);
+                // 可选：高亮或调用按钮的选中方法
+                var missionBtn = btnGO.GetComponent<MissionItemButton>();
+                if (missionBtn != null)
+                    missionBtn.OnClick();
+            }
+        }
     }
     void OnEnable()
     {
@@ -33,8 +46,9 @@ public class MissionStatsManager : MonoBehaviour
     {
 
     }
-    private void GenerateTaskButtons()
+    private Dictionary<Mission, GameObject> GenerateTaskButtons()
     {
+        var missionButtonMap = new Dictionary<Mission, GameObject>();
         foreach (Transform child in MissionListScrollViewContent.transform)
         {
             Destroy(child.gameObject);
@@ -44,7 +58,9 @@ public class MissionStatsManager : MonoBehaviour
             var buttonGO = Instantiate(MissionListButtonPrefab, MissionListScrollViewContent.transform);
             var taskButton = buttonGO.GetComponent<MissionItemButton>();
             taskButton.Initialize(this, mission);
+            missionButtonMap[mission] = buttonGO;
         }
+        return missionButtonMap;
 
     }
     public void SelectTask(Mission missionInfo)

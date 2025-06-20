@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public PlayerData playerData;
-    public PlayerStats playerStats;
+    public PlayerBaseStats playerStats;
 
     void Awake()
     {

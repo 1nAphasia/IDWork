@@ -23,9 +23,12 @@ public class MissionItemButton : MonoBehaviour
     }
 
 
-    private void OnClick()
+    public void OnClick()
     {
         // 通知列表视图切换任务
         MissionUIManager.SelectTask(MissionInfo);
+        GameDataManager.I.MissionService.CurrentMission.Value = MissionInfo;
     }
+
+
 }

@@ -1,3 +1,5 @@
+using System.IO;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
@@ -10,8 +12,8 @@ public class GameDataManager : MonoBehaviour
     public EquipmentSystem EquipSystem { get; private set; }
     public MissionManageService MissionService { get; private set; }
     // …SkillService、RemoteSyncService 等
-    string InventorySavePath = "Resources/InventorySaveJson.json";
-    string SlotSavePath = "Resources/SlotSaveJson.json";
+    string InventorySavePath => Path.Combine("SavedData", "InventorySaveJson.json");
+    string SlotSavePath => Path.Combine("SavedData", "SlotSaveJson.json");
     string InventoryJson = null;
     string SlotJson = null;
 
@@ -46,12 +48,35 @@ public class GameDataManager : MonoBehaviour
         var inventoryData = InventoryService.GetSaveDataJson();
         var playerSlotData = EquipSystem.GetSaveDataJson();
 
-        System.IO.File.WriteAllText(InventorySavePath, inventoryData);
-        System.IO.File.WriteAllText(SlotSavePath, playerSlotData);
+        Savethis(InventorySavePath, inventoryData);
+        Savethis(SlotSavePath, playerSlotData);
     }
     public void loadAll()
     {
-        //InventoryJson = System.IO.File.ReadAllText(InventorySavePath);
-        //SlotJson = System.IO.File.ReadAllText(SlotSavePath);
+        if (File.Exists(InventorySavePath))
+            InventoryJson = File.ReadAllText(InventorySavePath);
+        else
+            InventoryJson = null; // 或者给一个默认值
+
+        if (File.Exists(SlotSavePath))
+            SlotJson = File.ReadAllText(SlotSavePath);
+        else
+            SlotJson = null; // 或者给一个默认值
+    }
+    public void Savethis(string savePath, string data)
+    {
+        try
+        {
+            // 创建目录（如果不存在）
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+
+            // 保存数据
+            File.WriteAllText(savePath, data);
+            Debug.Log("保存成功: " + savePath);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("保存失败: " + e.Message);
+        }
     }
 }

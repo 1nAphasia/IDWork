@@ -3,20 +3,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats
+public class PlayerBaseStats
 {
     [Range(1, 40)]
     public uint Level { get; private set; }
     public float Health = 1.0f;
     public float baseDamage = 0.0f;
-    public float RateofFire = 0.0f;
-    public WeaponType weaponType = WeaponType.Pistol;
-
     private Dictionary<StatType, float> stats = new();
 
     public float GetStat(StatType type) => stats.TryGetValue(type, out var v) ? v : 0f;
     public void SetStat(StatType type, float value) => stats[type] = value;
-    public PlayerStats(uint level)
+    public PlayerBaseStats(uint level)
     {
         Level = level;
         // 初始化基础属性

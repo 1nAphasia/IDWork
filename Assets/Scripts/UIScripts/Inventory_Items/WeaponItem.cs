@@ -10,6 +10,7 @@ public class WeaponItem : MonoBehaviour
     public TMP_Text Damage;
     public TMP_Text DPM;
     public Image WeaponImage;
+    public Image RarityBG;
     public EquipmentInstance equip;
     public GameObject DetailPanel;
     public GameObject target;
@@ -23,16 +24,27 @@ public class WeaponItem : MonoBehaviour
         Damage.text = eq.Damage.ToString();
         DPM.text = eq.RateofFire.ToString();
         WeaponImage.sprite = eq.template.icon;
+        RarityBG.sprite = GameDataManager.I.ConfigService.GetRaritySprite(eq.rarity);
+
         target = DetailPanelContainer;
     }
     public void OnClick()
     {
-
         // 通知列表视图切换任务
         if (EventSystem.current.currentSelectedGameObject == currentSelectedGameobject)
         {
             GameDataManager.I.InventoryService.EquipWeapon(equip);
         }
+        currentSelectedGameobject = EventSystem.current.currentSelectedGameObject;
+    }
+    public void LootOnClick()
+    {
+        if (EventSystem.current.currentSelectedGameObject == currentSelectedGameobject)
+        {
+            GameDataManager.I.InventoryService.AddItemToInventory(equip);
+            UIManager.Instance.CloseLootDetailPanel();
+        }
+
         currentSelectedGameobject = EventSystem.current.currentSelectedGameObject;
     }
     public void OnSelect()

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6a18781a1dd08854398218cd36853383
+guid: 09faf59d3764ac64480b082cc808cfda
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: epic_0
+      name: GreNade_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1000
-        height: 1000
+        width: 1328
+        height: 1328
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1f4d8d4518891b4da241adc6e94fc75
-      internalID: -1158588805
+      spriteID: 50471a4d5e2aa3c44b1b26ff9c25056a
+      internalID: -1970004183
       vertices: []
       indices: 
       edges: []
@@ -122,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 734585469f8a33349b286985240d4a2b
+    spriteID: b9bc4028e50168c4799af5e6d43e39d3
     internalID: 0
     vertices: []
     indices: 
@@ -132,7 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      epic_0: -1158588805
+      GreNade_0: -1970004183
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

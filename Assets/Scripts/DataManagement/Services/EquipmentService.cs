@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class EquipmentService
 {
@@ -12,16 +13,6 @@ public class EquipmentService
     {
         var template = _cfg.GetEquipConfig(templateID);
         var NewIns = new EquipmentInstance(templateID, seed, level, rarity, template, skillId);
-        var rng = new System.Random(seed);
-        if (rarity is Rarity.Uncommon or Rarity.Rare)
-        {
-            NewIns.affixes.Add(GenerateAffix(rng, rarity));
-        }
-        else if (rarity is Rarity.Epic or Rarity.Legendary)
-        {
-            NewIns.affixes.Add(GenerateAffix(rng, rarity));
-            NewIns.affixes.Add(GenerateAffix(rng, rarity));
-        }
         NewIns.grantedSkills.Add(_cfg.GetSkillConfig(skillId));
         return NewIns;
     }

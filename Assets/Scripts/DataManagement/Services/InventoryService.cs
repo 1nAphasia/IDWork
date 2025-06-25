@@ -41,6 +41,14 @@ public class InventoryService : IInventoryService
         OnItemAdded?.Invoke(item);
     }
 
+    public void AddItemToInventory(EquipmentInstance Ins)
+    {
+        var item = new InventoryItem(Ins);
+        _items.Add(item);
+        NotificationManager.I.AddNotification(Ins.template.EquipName + " has been added to Inventory.");
+        OnItemAdded?.Invoke(item);
+    }
+
     public void EquipWeapon(EquipmentInstance Ins)
     {
         NotificationManager.I.AddNotification(Ins.template.EquipName + " equipped.");

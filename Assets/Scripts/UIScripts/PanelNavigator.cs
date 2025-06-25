@@ -94,20 +94,23 @@ public class PanelNavigator : MonoBehaviour
     }
     public void GoBack()
     {
-        var current = history.Pop();
-        current.SetActive(false);
-        if (history.Count == 0)
+        if (history.Count > 0)
         {
-            allPanels[0].SetActive(false);
-            isPanelOpened = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            playerInput.SwitchCurrentActionMap("Player");
-            allPanels[6].SetActive(true);
-            return;
+            var current = history.Pop();
+            current.SetActive(false);
+            if (history.Count == 0)
+            {
+                allPanels[0].SetActive(false);
+                isPanelOpened = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                playerInput.SwitchCurrentActionMap("Player");
+                allPanels[6].SetActive(true);
+                return;
+            }
+            var prev = history.Peek();
+            prev.SetActive(true);
         }
-        var prev = history.Peek();
-        prev.SetActive(true);
     }
     public void OpenOrCloseGenMenu()
     {

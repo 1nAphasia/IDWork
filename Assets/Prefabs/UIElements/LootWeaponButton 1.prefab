@@ -862,7 +862,7 @@ GameObject:
   - component: {fileID: 1780941417786606422}
   - component: {fileID: 5228902882612942682}
   m_Layer: 5
-  m_Name: WeaponButton
+  m_Name: LootWeaponButton 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -983,7 +983,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1780941417786606422}
         m_TargetAssemblyTypeName: WeaponItem, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: LootOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

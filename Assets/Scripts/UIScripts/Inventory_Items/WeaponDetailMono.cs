@@ -30,6 +30,7 @@ public class WeaponDetailMono : MonoBehaviour
         foreach (var affix in eq.affixes)
         {
             var affixItem = Instantiate(AffixItem, coreAffixPanelTransform);
+            Debug.Log("Instatiated Affix.");
             var affixItemMono = affixItem.GetComponent<AffixMono>();
             affixItemMono.Setup(affix, eq.rarity);
         }

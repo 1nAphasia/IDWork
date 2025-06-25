@@ -39,8 +39,8 @@ public class Utils
     {Rarity.Common,Color.white},
     {Rarity.Uncommon,Color.green},
     {Rarity.Rare,Color.blue},
-    {Rarity.Legendary,new Color(197,0,225)},
-    {Rarity.Epic,Color.yellow},
+    {Rarity.Epic,new Color(197,0,225)},
+    { Rarity.Legendary,Color.yellow},
     };
 }
 

@@ -1,6 +1,8 @@
+using System;
 using StarterAssets;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
@@ -8,6 +10,7 @@ public class UIManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private Canvas overlayCanvas;
+    [SerializeField] PlayerInput playerInput;
     public static UIManager Instance { get; private set; }
     [SerializeField] StarterAssetsInputs InputManager;
     [SerializeField] Sprite SemiAutoIcon;
@@ -18,6 +21,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TMP_Text AmmoLeft;
     [SerializeField] private GameObject hitNumberPrefab; // 拖拽你的HitNumberText预制体
     [SerializeField] private RectTransform hitNumberRoot; // 拖拽Canvas下用于飘字的父节点
+    [SerializeField] private GameObject lootPreviewPanelPrefab; // 拖拽你的Panel预制体
+    [SerializeField] private GameObject lootDetailPanel;
     public Slider ReloadStatusBar;
 
 
@@ -36,13 +41,9 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // InputManager.OnVPressed += ChangeShotModeUI;
-
+        InputManager.UIOnEscPressed += CloseLootDetailPanel;
     }
 
-    public void RefreshWeaponPanel(Weapon CurrentWeapon, FireMode CurrentFireMode)
-    {
-
-    }
     public void ChangeShotModeUI(FireMode mode)
     {
         if (mode is FireMode.SemiAuto) ShotModeIcon.sprite = SemiAutoIcon;
@@ -94,5 +95,35 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
         Destroy(go);
+    }
+
+    public GameObject ShowLootPreview(EquipmentInstance equip, Vector3 worldPos)
+    {
+        var panel = Instantiate(lootPreviewPanelPrefab, overlayCanvas.transform);
+        // 设置信息
+        panel.GetComponent<lootPreviewMono>().Setup(equip);
+
+        // 可选：将Panel定位到屏幕指定位置（如光柱上方/屏幕中央等）
+        var rect = panel.GetComponent<RectTransform>();
+        Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+        rect.position = screenPos + new Vector2(0, -300);
+
+        return panel;
+    }
+
+    public void ShowLootDetailPanel(EquipmentInstance lootEquipment, GameObject lootBeam)
+    {
+        lootDetailPanel.GetComponent<LootDetailMono>().Setup(lootEquipment, lootBeam);
+        lootDetailPanel.SetActive(true);
+        playerInput.SwitchCurrentActionMap("UI");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void CloseLootDetailPanel()
+    {
+        lootDetailPanel.SetActive(false);
+        playerInput.SwitchCurrentActionMap("Player");
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

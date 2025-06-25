@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea1f560fbf85b2439d5efec0fc4d076, type: 3}
+  m_Name: DB-A
+  m_EditorClassIdentifier: 
+  templateID: Armor_DB-A
+  equipType: 1
+  equipSlot: 2
+  EquipName: DB-A
+  icon: {fileID: -759619263, guid: 1575225fe54d0294996de62b7272a27f, type: 3}
+  armorValue: 100
+  core: 1
+  armorType: 0

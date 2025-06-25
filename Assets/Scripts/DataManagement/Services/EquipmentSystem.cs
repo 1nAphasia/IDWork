@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -15,12 +16,13 @@ public class EquipmentSystem : IEquipmentSystem
 {
     private Dictionary<EquipSlot, EquipmentInstance> equipped = new();
     public IConfigService _cfg;
+    public event Action EquipChanged;
     public EquipmentSystem(IConfigService cfg, string json)
     {
         _cfg = cfg;
         if (json is null)
         {
-            foreach (EquipSlot slot in System.Enum.GetValues(typeof(EquipSlot)))
+            foreach (EquipSlot slot in Enum.GetValues(typeof(EquipSlot)))
             {
                 equipped[slot] = null;
             }
@@ -42,7 +44,8 @@ public class EquipmentSystem : IEquipmentSystem
     public void Equip(EquipmentInstance equip)
     {
         if (equip == null) return;
-        equipped[equip.slot] = equip;
+        equipped[equip.template.equipSlot] = equip;
+        EquipChanged.Invoke();
     }
 
     public void Unequip(EquipSlot slot)
@@ -58,19 +61,21 @@ public class EquipmentSystem : IEquipmentSystem
             var equip = kv.Value;
             if (equip != null)
             {
-                saveData.equipped.Add(new EquipmentSaveData
+                var newdata = new EquipmentSaveData
                 {
                     slot = kv.Key,
                     templateID = equip.templateID,
                     level = equip.level,
                     seed = equip.seed,
                     rarity = equip.rarity,
-                    skillId = equip.grantedSkills[0].skillId,
-                    // 其它字段
-                });
+                };
+                if (equip.grantedSkills.Count is not 0)
+                    newdata.skillId = equip.grantedSkills[0].skillId;
+                saveData.equipped.Add(newdata);
             }
         }
         string json = JsonUtility.ToJson(saveData);
+        Debug.Log("slot save json is: " + json);
 
         return json;
     }
@@ -78,7 +83,7 @@ public class EquipmentSystem : IEquipmentSystem
     {
         var saveData = JsonUtility.FromJson<PlayerEquipmentSaveData>(json);
         equipped.Clear();
-        foreach (var slot in System.Enum.GetValues(typeof(EquipSlot)))
+        foreach (var slot in Enum.GetValues(typeof(EquipSlot)))
         {
             equipped[(EquipSlot)slot] = null;
         }

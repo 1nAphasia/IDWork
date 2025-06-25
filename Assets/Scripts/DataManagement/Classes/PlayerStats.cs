@@ -1,51 +1,140 @@
-// PlayerStats.cs
+
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class PlayerBaseStats
+public class PlayerStats
 {
-    [Range(1, 40)]
-    public uint Level { get; private set; }
-    public float Health = 1.0f;
-    public float baseDamage = 0.0f;
-    private Dictionary<StatType, float> stats = new();
+    public PlayerBaseStats playerBaseStats;
+    private List<ActiveBuff> buffs = new();
+    public Dictionary<StatType, float> finalStats = new();
+    private IEquipmentSystem equipSystem;
+    private bool dirty = true;
+    public float Damage;
+    public float RateofFire = 0;
+    public WeaponType CurrentWeaponType;
+    public event Action OnStatsChanged;
+    public List<RuntimeWeaponInstance> Weapons;
+    public int CurrentWeapon = 0;
 
-    public float GetStat(StatType type) => stats.TryGetValue(type, out var v) ? v : 0f;
-    public void SetStat(StatType type, float value) => stats[type] = value;
-    public PlayerBaseStats(uint level)
+    public PlayerStats(PlayerBaseStats cfg, IEquipmentSystem eqSystem)
     {
-        Level = level;
-        // 初始化基础属性
-        stats[StatType.MaxHealth] = 1000 + Level * Mathf.Log(Level) * 40;
-        Health = stats[StatType.MaxHealth];
-        stats[StatType.Armor] = 2500 + Level * Mathf.Log(Level) * 100;
-        stats[StatType.MovementSpeed] = 20;
-        stats[StatType.WeaponDamage] = 0;
-        stats[StatType.CritChance] = 0;
-        stats[StatType.CritDamage] = 1.5f;
-        stats[StatType.HeadshotDamage] = 1.5f;
-        stats[StatType.WeaponControl] = 0;
-        stats[StatType.RateOfFire] = 0;
-        stats[StatType.HazardProtection] = 0;
-        stats[StatType.DamageReduction] = 0;
-        stats[StatType.TotalArmor] = 0;
-        stats[StatType.BulletProtection] = 0;
-        stats[StatType.SkillDamage] = 0;
-        stats[StatType.SkillLength] = 0;
-        stats[StatType.CooldownSpeed] = 0;
-    }
-    public void TakeDamage(float amount)
-    {
-        Health = Mathf.Max(0, Health - amount);
+        equipSystem = eqSystem;
+        playerBaseStats = cfg;
+        Damage = playerBaseStats.baseDamage;
+        InitiateWeapons();
+        MarkDirty();
+        Recalculate();
+
+        GameDataManager.I.EquipSystem.EquipChanged += InitiateWeapons;
+
+
     }
 
-    public void Heal(float amount)
+    private void MarkDirty()
     {
-        Health = Math.Min(stats[StatType.MaxHealth], Health + amount);
+        dirty = true;
     }
-    public void LevelUp()
+
+    public void AddBuff(BuffConfigSO buffCfg)
     {
-        Level++;
+        buffs.Add(new ActiveBuff(buffCfg));
+        MarkDirty();
+    }
+
+    // 在 MonoBehaviour 的 Update 中调用
+    public void Tick(float deltaTime)
+    {
+        for (int i = buffs.Count - 1; i >= 0; i--)
+        {
+            if (buffs[i].Tick(deltaTime) <= 0)
+            {
+                buffs.RemoveAt(i);
+                dirty = true;
+            }
+        }
+        if (dirty) Recalculate();
+    }
+
+    private void Recalculate()
+    {
+        //从所有基础属性开始更新当前属性
+        // 1. 复制基础属性
+        finalStats.Clear();
+        foreach (StatType type in Enum.GetValues(typeof(StatType)))
+            finalStats[type] = playerBaseStats.GetStat(type);
+        //2. 计算装备属性
+        if (equipSystem != null)
+        {
+            foreach (var equip in equipSystem.GetAllEquipped())
+            {
+                if (equip is null) continue;
+                //叠甲
+                if (equip.template.equipType is not EquipType.Weapon)
+                {
+                    finalStats[StatType.Armor] += (float)equip.Armor;
+                }
+                foreach (var affix in equip.affixes)
+                {
+                    switch (affix.type)
+                    {
+                        case StatModType.Additive:
+                            finalStats[affix.targetStat] += affix.value;
+                            break;
+                        case StatModType.Multiplicative:
+                            finalStats[affix.targetStat] *= affix.value;
+                            break;
+                    }
+                }
+            }
+            Damage = Weapons[CurrentWeapon].Damage + playerBaseStats.baseDamage;
+            RateofFire = Weapons[CurrentWeapon].RateOfFire;
+            CurrentWeaponType = (WeaponType)Weapons[CurrentWeapon].weaponType;
+        }
+        // 2. 叠加Buff
+        foreach (var buff in buffs)
+        {
+            var t = buff.Config.targetStat;
+            var v = buff.Config.value;
+            var mod = buff.Config.modType;
+            switch (mod)
+            {
+                case StatModType.Additive:
+                    finalStats[t] += v;
+                    break;
+                case StatModType.Multiplicative:
+                    finalStats[t] *= v;
+                    break;
+            }
+        }
+        OnStatsChanged?.Invoke();
+        dirty = false;
+    }
+
+    private void InitiateWeapons()
+    {
+        if (Weapons == null)
+            Weapons = new List<RuntimeWeaponInstance>();
+        else
+            Weapons.Clear();
+        foreach (var equip in equipSystem.GetAllEquipped())
+        {
+            if (equip is null || equip.template.equipSlot is not EquipSlot.MainHand or EquipSlot.OffHand) continue;
+            //叠甲
+            if (equip.template.equipSlot is EquipSlot.MainHand)
+            {
+                Weapons.Add(new RuntimeWeaponInstance(equip));
+            }
+            if (equip.template.equipSlot is EquipSlot.OffHand)
+            {
+                Weapons.Add(new RuntimeWeaponInstance(equip));
+            }
+        }
+        MarkDirty();
+    }
+
+    public void SetWeaponStats(float Damage, float RateofFire, int CurrentAmmo, int MaxAmmo, WeaponType weaponType)
+    {
+
     }
 }
+

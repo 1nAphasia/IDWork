@@ -37,17 +37,19 @@ public class InventoryService : IInventoryService
     public void AddItem(EquipmentInstance Ins)
     {
         var item = new InventoryItem(Ins);
-
+        _items.Add(item);
         OnItemAdded?.Invoke(item);
     }
 
     public void EquipWeapon(EquipmentInstance Ins)
     {
-        _stats.OnWeaponChange(Ins);
+        NotificationManager.I.AddNotification(Ins.template.EquipName + " equipped.");
+        GameDataManager.I.EquipSystem.Equip(Ins);
     }
     public void EquipArmor(EquipmentInstance Ins)
     {
-        //ArmorChange.Invoke();
+        NotificationManager.I.AddNotification(Ins.template.EquipName + " equipped.");
+        GameDataManager.I.EquipSystem.Equip(Ins);
     }
     public void LoadFromSaveData(string json)
     {

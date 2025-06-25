@@ -15,12 +15,11 @@ public class EquipmentInstance
     public float? Armor;
     public CoreAffix? CoreAffix;
     public Ballistics? ballistics;
-    public EquipSlot slot;
     public Rarity rarity;
     public EquipmentSO template;
     public List<Affix> affixes;
     public List<SkillSO> grantedSkills;
-    public List<FireMode> AvailableFireMode;
+    public List<FireMode> AvailableFireMode = new List<FireMode>();
     public EquipmentInstance(string tpID, int sd, int lvl, Rarity ra, EquipmentSO tp, int? skillId)
     {
         templateID = tpID;
@@ -35,7 +34,7 @@ public class EquipmentInstance
             weaponType = ((WeaponSO)template).weaponType;
             MaxAmmo = ((WeaponSO)template).maxAmmo;
             ballistics = ((WeaponSO)template).ballistics;
-
+            AvailableFireMode = ((WeaponSO)template).AvailableFireMode;
         }
         else
         {
@@ -45,7 +44,8 @@ public class EquipmentInstance
         var rng = new System.Random(seed);
         affixes = new List<Affix>();
         grantedSkills = new List<SkillSO>();
-        AvailableFireMode = new List<FireMode>();
+
+
         if (rarity is Rarity.Uncommon or Rarity.Rare)
         {
             affixes.Add(EquipmentService.GenerateAffix(rng, rarity));

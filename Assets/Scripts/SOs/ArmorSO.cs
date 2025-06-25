@@ -6,5 +6,5 @@ public class ArmorSO : EquipmentSO
 {
     public float armorValue;
     public CoreAffix core;
-    public ArmorType weaponType;
+    public ArmorType armorType;
 }

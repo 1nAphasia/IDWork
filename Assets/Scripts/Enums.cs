@@ -92,3 +92,5 @@ public enum MissionStatus
 }
 
 public enum FireMode { SemiAuto, FullAuto, Burst, Charge, SingleShot }
+
+public enum EnemyType { Common, Rare, Elite }

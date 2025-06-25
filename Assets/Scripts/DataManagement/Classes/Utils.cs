@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class AffixRangeTable
 {
@@ -30,6 +31,25 @@ public static class AffixRangeTable
     {StatType.SkillLength,(0,0.1f)},
     {StatType.CooldownSpeed,(0,0.1f)},
     };
+}
+public class Utils
+{
+    public static readonly Dictionary<Rarity, Color> RarityToColor = new()
+    {
+    {Rarity.Common,Color.white},
+    {Rarity.Uncommon,Color.green},
+    {Rarity.Rare,Color.blue},
+    {Rarity.Legendary,new Color(197,0,225)},
+    {Rarity.Epic,Color.yellow},
+    };
+}
+
+
+[System.Serializable]
+public struct RaritySpritePair
+{
+    public Rarity rarity;
+    public Sprite sprite;
 }
 
 [System.Serializable]

@@ -19,6 +19,9 @@ namespace StarterAssets
 		public event System.Action OnEscPressed;
 		public event System.Action OnTabPressed;
 		public event System.Action UIOnEscPressed;
+		public event System.Action OnPPressed;
+		public event System.Action OnVPressed;
+		public event System.Action OnRPressed;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -80,6 +83,27 @@ namespace StarterAssets
 			}
 		}
 
+		public void OnP(InputValue Value)
+		{
+			if (Value.isPressed)
+			{
+				OnPPressed.Invoke();
+			}
+		}
+		public void OnV(InputValue Value)
+		{
+			if (Value.isPressed)
+			{
+				OnVPressed.Invoke();
+			}
+		}
+		public void OnR(InputValue Value)
+		{
+			if (Value.isPressed)
+			{
+				OnRPressed.Invoke();
+			}
+		}
 #endif
 
 

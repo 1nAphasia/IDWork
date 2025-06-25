@@ -13,10 +13,6 @@ public class PlayerStatsService
         playerStats = new PlayerStats(new PlayerBaseStats(1), EqSystem);
     }
 
-    public void OnWeaponChange(EquipmentInstance Ins)
-    {
-        OnStatsChanged.Invoke();
-    }
 
     public List<(string, string)> GetAllStats()
     {

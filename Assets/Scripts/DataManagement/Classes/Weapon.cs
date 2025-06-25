@@ -20,7 +20,6 @@ public class Weapon
     public string templateID;
     public WeaponType? weaponType;
     public int MaxAmmo;
-    public ObservableProperty<int> CurrentAmmo;
 
     public List<FireMode> AvailableFireMode;
 
@@ -32,8 +31,31 @@ public class Weapon
         weaponType = EqIns.weaponType;
         MaxAmmo = EqIns.MaxAmmo;
         AvailableFireMode = EqIns.AvailableFireMode;
-        CurrentAmmo.Value = MaxAmmo;
     }
 
+}
+
+public class RuntimeWeaponInstance
+{
+    public float Damage;
+    public float RateOfFire;
+    public string templateID;
+    public WeaponType? weaponType;
+    public int MaxAmmo;
+    public int CurrentAmmo;
+    public int AmmoLeft;
+
+    public List<FireMode> AvailableFireMode;
+    public RuntimeWeaponInstance(EquipmentInstance EqIns)
+    {
+        Damage = (float)EqIns.Damage;
+        RateOfFire = (float)EqIns.RateofFire;
+        templateID = EqIns.templateID;
+        weaponType = EqIns.weaponType;
+        MaxAmmo = EqIns.MaxAmmo;
+        AvailableFireMode = EqIns.AvailableFireMode;
+        AmmoLeft = MaxAmmo * 20;
+        CurrentAmmo = MaxAmmo;
+    }
 }
 
